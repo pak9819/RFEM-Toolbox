@@ -1,0 +1,5 @@
+suds
+requests
+six
+mock
+xmltodict

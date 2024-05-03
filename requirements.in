@@ -1,5 +1,3 @@
-suds
-requests
-six
-mock
-xmltodict
+RFEM
+re
+ast

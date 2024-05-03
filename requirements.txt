@@ -8,17 +8,38 @@ certifi==2024.2.2
     # via requests
 charset-normalizer==3.3.2
     # via requests
+colorama==0.4.6
+    # via pytest
+exceptiongroup==1.2.1
+    # via pytest
 idna==3.7
     # via requests
+iniconfig==2.0.0
+    # via pytest
 mock==5.1.0
-    # via -r C:\Users\User\Desktop\dev\RFEM-Matlab-Exchange\requirements.in
+    # via rfem
+packaging==24.0
+    # via pytest
+pluggy==1.5.0
+    # via pytest
+psutil==5.9.8
+    # via rfem
+pytest==8.2.0
+    # via rfem
 requests==2.31.0
+    # via rfem
+rfem==1.19.5
     # via -r C:\Users\User\Desktop\dev\RFEM-Matlab-Exchange\requirements.in
 six==1.16.0
-    # via -r C:\Users\User\Desktop\dev\RFEM-Matlab-Exchange\requirements.in
-suds==1.1.2
-    # via -r C:\Users\User\Desktop\dev\RFEM-Matlab-Exchange\requirements.in
+    # via rfem
+suds-py3==1.4.5.0
+    # via rfem
+tomli==2.0.1
+    # via pytest
 urllib3==2.2.1
     # via requests
 xmltodict==0.13.0
-    # via -r C:\Users\User\Desktop\dev\RFEM-Matlab-Exchange\requirements.in
+    # via rfem
+
+# The following packages are considered to be unsafe in a requirements file:
+# setuptools

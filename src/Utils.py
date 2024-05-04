@@ -9,6 +9,22 @@ class DataUtils:
         formatted_str = re.sub(r"^[A-Za-z]+\(params=(.*)\)$", r"\1", string)
         return ast.literal_eval(formatted_str)
 
+    @staticmethod
+    def _transform_element_data(elements: list[dict]) -> list[list[int]]:
+        # apply logic for mesh that consists of rectangles and triangles
+        transformed_elements = []
+        for dictionary in elements:
+            surface = [int(dictionary[key]) for key in dictionary if key.startswith("FE_node")]
+            transformed_elements.append(surface)
+        return transformed_elements
+
+    @staticmethod
+    def _transform_node_data(nodes: list[dict]) -> list[list[float]]:
+        out = []
+        for item in nodes:
+            out.append([float(item["x"]), float(item["y"]), float(item["z"])])
+        return out
+
     @classmethod
     def _get_items(cls, data: List[str], prefix: str) -> List[Dict]:
         items = []

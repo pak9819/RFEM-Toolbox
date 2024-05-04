@@ -1,1 +1,1 @@
-##Exchange interface between dlubal rfem and matlab
+## Exchange Framework between DLUBAL RFEM and MATLAB

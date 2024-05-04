@@ -1,69 +1,78 @@
+"""
+This module handles RFEM data processing and provides convenient access to mesh elements, nodes, and materials.
+
+MeshType:
+- Enumerates types of mesh in RFEM: FE1D, FE2D, and FE3D.
+
+RFEMDataHandler:
+- Manages RFEM data handling based on provided mesh type.
+- Initializes with RFEM model and mesh type.
+- Retrieves element and node data from RFEM via RFEMInterface.
+- Utilizes DataUtils for data transformation.
+
+Dependencies:
+- enum.Enum: Base class for creating enumerated constants.
+- Interfaces.RFEMInterface: Provides interfaces to interact with RFEM models.
+- Utils.DataUtils: Utility functions for data transformation.
+"""
+
 from RFEM.initModel import Model
-from RFEM.Results.meshTables import MeshTables
-from RFEM.Tools.GetObjectNumbersByType import GetAllObjects
+
+from enum import Enum
+from Interfaces import RFEMInterface
 from Utils import DataUtils
+
+
+class MeshType(Enum):
+    FE1D = 1
+    FE2D = 2
+    FE3D = 3
 
 
 class RFEMDataHandler:
 
-    def __init__(self, model_name: str) -> None:
-        self.model = Model(True, model_name)
-        self._raw_elements, self._nodes = self._get_rfem_data()
-        self._raw_data = GetAllObjects(model=self.model)
+    def __init__(self, model: Model, mesh_type: MeshType):
+        self._rfem_interface = RFEMInterface(model=model)
+        self._mesh_type = mesh_type
+        self._raw_element_data = self._get_rfem_elements()
+        self._raw_node_data = self._get_rfem_nodes()
+        self._raw_data = self._rfem_interface.get_all_objects()
         self._materials = DataUtils.get_materials(self._raw_data)
         self._elements = None
+        self._nodes = None
 
     @property
-    def nodes(self):
-        return self._transform_node_data()
+    def nodes(self) -> list[list[float]]:
+        if self._nodes is None:
+            self._nodes = DataUtils._transform_node_data(self._raw_node_data)
+        return self._nodes
 
     @property
-    def elements(self):
+    def elements(self) -> list[list[int]]:
         if self._elements is None:
-            self._elements = self._extract_elements()
+            print(True)
+            self._elements = DataUtils._transform_element_data(self._raw_element_data)
         return self._elements
 
     @property
     def materials(self):
         return self._materials
 
-    def _get_rfem_data(self) -> tuple:
-        fe1d_elements = MeshTables.GetAllFE1DElements(model=self.model)
-        fe_nodes = MeshTables.GetAllFENodes(model=self.model)
-        return fe1d_elements, fe_nodes
-
-    def _extract_elements(self) -> list[dict]:
-        nodes = set()
-        for item in self._raw_elements:
-            nodes.update([item["FE_node1_no"], item["FE_node2_no"]])
-
-        elements = []
-        for node in nodes:
-            node_dict = {node: []}
-            connected_nodes = []
-            for item in self._raw_elements:
-                if node in (item["FE_node1_no"], item["FE_node2_no"]):
-                    value = item[
-                        "FE_node2_no" if item["FE_node1_no"] == node else "FE_node1_no"
-                    ]
-                    # node_dict[node].append(value)
-                    connected_nodes.append(int(value))
-            # elements.append(node_dict)
-
-            length = len(nodes) - len(connected_nodes)
-            for i in range(length):
-                connected_nodes.append(0)
-
-            elements.append(connected_nodes)
-        return elements
+    def _get_rfem_elements(self) -> list[dict]:
+        if self._mesh_type == MeshType.FE1D:
+            fe_elements = self._rfem_interface.get_fe1d_elements()
+        elif self._mesh_type == MeshType.FE2D: 
+            fe_elements = self._rfem_interface.get_fe2d_elements()
+        elif self._mesh_type == MeshType.FE3D: 
+            fe_elements = self._rfem_interface.get_fe3d_elements()
+        return fe_elements
     
-    def _transform_node_data(self):
-        out = []
-        for item in self._nodes:
-            out.append([float(item["x"]), float(item["y"]), float(item["z"])])
-        return out
-
+    def _get_rfem_nodes(self) -> list[dict]:
+        return self._rfem_interface.get_fe_nodes()
 
 if __name__ == "__main__":
-    data_handler = RFEMDataHandler(model_name="Stütze.rf6")
+    
+    model = Model(True, "Stütze.rf6")
+    data_handler = RFEMDataHandler(model=model, mesh_type=MeshType.FE2D)
+    print(data_handler.elements)
     print(data_handler.nodes)

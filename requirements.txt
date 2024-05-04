@@ -18,6 +18,8 @@ iniconfig==2.0.0
     # via pytest
 mock==5.1.0
     # via rfem
+numpy==1.26.4
+    # via scipy
 packaging==24.0
     # via pytest
 pluggy==1.5.0
@@ -29,6 +31,8 @@ pytest==8.2.0
 requests==2.31.0
     # via rfem
 rfem==1.19.5
+    # via -r C:\Users\User\Desktop\dev\RFEM-Matlab-Exchange\requirements.in
+scipy==1.13.0
     # via -r C:\Users\User\Desktop\dev\RFEM-Matlab-Exchange\requirements.in
 six==1.16.0
     # via rfem

@@ -25,4 +25,5 @@ SOFTWARE.
 
 
 from Utils import DataUtils
-from DataProcessor import RFEMDataHandler
+from Interfaces import RFEMInterface, ScipyInterface
+from DataProcessor import RFEMDataHandler, MeshType

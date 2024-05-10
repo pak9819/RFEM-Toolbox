@@ -50,7 +50,6 @@ class RFEMDataHandler:
     @property
     def elements(self) -> list[list[int]]:
         if self._elements is None:
-            print(True)
             self._elements = DataUtils._transform_element_data(self._raw_element_data)
         return self._elements
 

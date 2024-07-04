@@ -68,10 +68,3 @@ class RFEMDataHandler:
     
     def _get_rfem_nodes(self) -> list[dict]:
         return self._rfem_interface.get_fe_nodes()
-
-if __name__ == "__main__":
-    
-    model = Model(True, "Stütze.rf6")
-    data_handler = RFEMDataHandler(model=model, mesh_type=MeshType.FE2D)
-    print(data_handler.elements)
-    print(data_handler.nodes)

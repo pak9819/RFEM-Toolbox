@@ -34,8 +34,17 @@ class DataUtils:
         return items
 
     @classmethod
-    def get_materials(cls, data: List[str]) -> List[Dict]:
-        return cls._get_items(data, "Material")
+    def get_materials(cls, data: List[str], verbose=False) -> List[Dict]:
+        if verbose == True:
+            return cls._get_items(data, "Material")
+        else:
+            pass # Filter
+            # 1d
+            # Querschnittsfläche
+            # 2d
+            # e-module, querdehnzahl, dicke, dichte, eigengewicht
+            # 3d
+            # NaN
 
     @classmethod
     def get_members(cls, data: List[str]) -> List[Dict]:

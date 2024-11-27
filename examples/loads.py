@@ -1,12 +1,11 @@
+import os
+import sys
+sys.path.append(os.path.join(os.path.abspath('../'), "RFEM-Matlab-Exchange"))
+sys.path.append(os.path.join(os.path.abspath('../'), "RFEM-Matlab-Exchange\\RFEMToolbox"))
+
 import RFEM
-import RFEM.DynamicLoads
-import RFEM.LoadCasesAndCombinations
-import RFEM.Loads
-import RFEM.Loads.lineLoad
-import RFEM.Loads.memberLoad
-import RFEM.Loads.nodalLoad
-import RFEM.dependencies
-import RFEM.initModel
+
+from RFEMToolbox import StartupSettings
 
 def getLoads():
     loads = []
@@ -14,6 +13,8 @@ def getLoads():
 
 if __name__ == "__main__":
 
-    model = RFEM.initModel.Model("C:\\Users\\User\\Desktop\\Kragarm.rf6")
+    model_name = StartupSettings.get_model_name()
+
+    model = RFEM.initModel.Model(new_model=False, model_name=model_name)
     getLoads()
 

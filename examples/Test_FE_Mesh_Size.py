@@ -1,3 +1,9 @@
+import os
+import sys
+
+sys.path.append(os.path.join(os.path.abspath('../'), "RFEM-Matlab-Exchange"))
+sys.path.append(os.path.join(os.path.abspath('../'), "RFEM-Matlab-Exchange\\RFEMToolbox"))
+
 import RFEM
 import RFEM.Calculate
 import RFEM.Calculate.meshSettings
@@ -6,19 +12,26 @@ import RFEM.Results.resultTables
 import RFEM.enums
 import RFEM.initModel
 
-class FEMMeshTest:
+from RFEMToolbox import StartupSettings
+from RFEMToolbox.Utils import JSONDataWriter
 
-    def __init__(self, model_path, initial_fe_mesh_size=0.5, steps=None):
-        self.model_path = model_path
-        self.fe_mesh_size = initial_fe_mesh_size
-        self.steps = steps if steps is not None else [0.02] * 20
+
+class FEMMeshTest:
+    def __init__(self, settings_repo, writer):
+        self.model_path = settings_repo.model_path
+        self.model_name = settings_repo.model_name
+        self.fe_mesh_size = settings_repo.fe_mesh_size
+        self.steps = settings_repo.steps
+        self.direction = settings_repo.displacement_direction
+        self.node_number = settings_repo.node_number - 1 # create list index
+        self.writer = writer
         self.displacements = []
 
     def _open_model(self):
         self.model = RFEM.initModel.openFile(self.model_path)
 
     def _close_model(self):
-        RFEM.initModel.closeModel('Kragarm.rf6')
+        RFEM.initModel.closeModel(self.model_name)
 
     def _update_settings(self, settings):
         new_sett = {}
@@ -39,30 +52,38 @@ class FEMMeshTest:
     def _calculate_displacement(self):
         RFEM.initModel.Calculate_all(False, self.model)
         results = RFEM.Results.resultTables.ResultTables.NodesDeformations(model=self.model)
-        return results[2]['displacement_z']
+        return results[self.node_number][self.direction]
 
     def run(self):
-        for step in self.steps:
+        for i, step in enumerate(self.steps):
+            print(f"Epoch {i + 1} / {len(self.steps)} | Meshsize={self.fe_mesh_size}")
+
             self._open_model()
-
-            settings = RFEM.Calculate.meshSettings.GetMeshSettings()
-            self._update_settings(settings)
-
+            model_settings = RFEM.Calculate.meshSettings.GetMeshSettings()
+            self._update_settings(model_settings)
             self._generate_mesh()
 
-            self.fe_mesh_size -= step
+            displacement = self._calculate_displacement()
+            self.displacements.append(displacement)
+            print(displacement)
 
-            displacement_z = self._calculate_displacement()
-            self.displacements.append(displacement_z)
+            self.writer.write(fe_mesh_size=self.fe_mesh_size, displacement=displacement, index=i)
 
             self._close_model()
 
-        print(self.displacements)
+            self.fe_mesh_size -= step
 
 
 if __name__ == "__main__":
 
-    test_model = RFEM.initModel.Model("FE_Mesh_test")
+    settings = StartupSettings.load_settings()
+    writer = JSONDataWriter(settings.json_save_path)
 
-    fem_mesh_test = FEMMeshTest('C:\\Users\\User\\Desktop\\Kragarm.rf6')
+    dummy_model = RFEM.initModel.Model()
+
+    fem_mesh_test = FEMMeshTest(
+        settings_repo=settings,
+        writer=writer
+    )
+    
     fem_mesh_test.run()

@@ -1,0 +1,13 @@
+{
+    "startup": {
+      "modelPath": "C:\\Users\\User\\Desktop\\Test_FE.rf6",
+      "modelName": "Test_FE",
+      "savePath": "C:\\Users\\User\\Desktop\\test.mlx",
+      "jsonSavePath": "C:\\Users\\User\\Desktop\\test.json",
+      "displacementDirection": "displacement_z",
+      "nodeNumber": 3,
+      "initialFeMeshSize": 0.5,
+      "incrementalSteps": [0.02, 0.02, 0.02, 0.02, 0.02] 
+    }
+}
+  

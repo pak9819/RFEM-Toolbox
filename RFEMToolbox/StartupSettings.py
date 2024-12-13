@@ -72,6 +72,75 @@ class SettingsRepository:
     
     @property
     def node_number(self):
-        """Returns the node number"""
-        return self._get_setting("nodeNumber", "")
 
+        return self._get_setting("nodeNumber", "")
+    
+    @property
+    def length(self):
+
+        return self._get_setting("length", "")
+    
+    @property
+    def height(self):
+
+        return self._get_setting("height", "")
+    
+    @property
+    def boundary_left(self):
+
+        return self._get_setting("boundaryLeft", "")
+    
+    @property
+    def boundary_right(self):
+
+        return self._get_setting("boundaryRight", "")
+
+    @property
+    def load_type(self):
+
+        return self._get_setting("loadType", "")
+    
+    @property
+    def displacement_reference(self):
+
+        return self._get_setting("displacementReference", "")
+    
+    @property
+    def log_file_path(self):
+
+        return self._get_setting("logFilePath", "")
+    
+    @property
+    def material(self):
+
+        return self._get_setting("material", "")
+    
+    @property
+    def log_file_project_name(self):
+
+        return self._get_setting("logFileProjectName", "")
+    
+    @property
+    def structure_id(self):
+
+        return self._get_setting("StructureId", "")
+    
+    @property
+    def structure_type(self):
+
+        return self._get_setting("StructureType", "")
+    
+    @property
+    def force(self):
+        return self._get_setting("force", "")
+
+    @property
+    def width(self):
+        return self._get_setting("width", "")
+    
+    @property
+    def boundary_mid(self):
+        return self._get_setting("boundaryMid", "")
+
+
+    

@@ -35,10 +35,8 @@ class DataUtils:
 
     @classmethod
     def get_materials(cls, data: list[str], verbose=False) -> list[dict]:
-        if verbose == True:
             return cls._get_items(data, "Material")
-        else:
-            pass # Filter
+            # Filter
             # 1d
             # Querschnittsfläche
             # 2d
@@ -60,18 +58,55 @@ class JSONDataWriter:
         """
         self.file_path = file_path
 
-    def write(self, fe_mesh_size: float, displacement: float, index: int):
+    def write(
+            self, 
+            struct_type: str, 
+            struct_id: str, 
+            length: float,
+            height: float,
+            width:float,
+            support_left: str,
+            support_mid: str,
+            support_right: str, 
+            load_type: str,
+            force:float,
+            material: str,
+            e_module: float,
+            poisson: float,
+            density: float, 
+            mesh_size: float, 
+            elements: int, 
+            nodes: int,
+            max_displacement: float, 
+            displacement_delta: float, 
+            calculation_time_mesh: str,
+            calculation_time_total: str
+    ):
         """
         Writes a single entry of data to the JSON file.
-
-        :param fe_mesh_size: The finite element mesh size (float).
-        :param displacement: The displacement value (float).
-        :param index: The index value (int).
         """
         data_entry = {
-            "fe_mesh_size": fe_mesh_size,
-            "displacement": displacement,
-            "index": index
+            "structure_type": struct_type,
+            "structure_id": struct_id,
+            "length": length,
+            "height": height,
+            "width": width,
+            "support_left": support_left,
+            "support_mid": support_mid,
+            "support_right": support_right,
+            "load_type": load_type,
+            "force": force,
+            "material": material,
+            "e_module": e_module,
+            "poisson": poisson,
+            "density": density,
+            "mesh_size": mesh_size,
+            "elements": elements,
+            "nodes": nodes,
+            "max_displacement": max_displacement,
+            "displacement_delta": displacement_delta,
+            "mesh_calculation_time": calculation_time_mesh,
+            "total_calculation_time": calculation_time_total
         }
         
         # Read the existing data if the file exists

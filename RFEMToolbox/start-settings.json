@@ -1,13 +1,36 @@
 {
     "startup": {
-      "modelPath": "C:\\Users\\User\\Desktop\\Test_FE.rf6",
-      "modelName": "Test_FE",
-      "savePath": "C:\\Users\\User\\Desktop\\test.mlx",
-      "jsonSavePath": "C:\\Users\\User\\Desktop\\test.json",
+      "modelPath": "C:\\Users\\User\\Desktop\\Modelle\\durchlauftrager_mittige_punktlasten.rf6",
+      "modelName": "durchlauftrager_mittige_punktlasten",
+
+      "logFilePath": "C:\\Users\\User\\AppData\\Local\\Dlubal\\RFEM6_6.06",
+      "logFileProjectName": "durchlauftrager_mitt_0",
+  
+      "jsonSavePath": "C:\\Users\\User\\Desktop\\Modelle\\Daten\\durchlauftrager_mittige_punktlasten_concrete.json",
+
+      "StructureType": "beam",
+      "StructureId": "a3",
+
+      "nodeNumber": 5,
       "displacementDirection": "displacement_z",
-      "nodeNumber": 3,
-      "initialFeMeshSize": 0.5,
-      "incrementalSteps": [0.02, 0.02, 0.02, 0.02, 0.02] 
+      "displacementReference": 0.000658078002743423,
+      
+      "initialFeMeshSize": 0.02,
+      "incrementalSteps": [0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02,0.02, 0.02, 0.02],
+      
+      "material": "concrete",
+
+      "length": 2000,
+      "height": 100,
+      "width": 0,
+
+      "boundaryLeft": "hinged",
+      "boundaryMid": "hinged",
+      "boundaryRight": "hinged",
+      "loadType": "point_load",
+      "force": 10,
+
+      "savePath": "C:\\Users\\User\\Desktop\\test.mlx"
     }
 }
   

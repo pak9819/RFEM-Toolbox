@@ -31,7 +31,7 @@ class MeshType(Enum):
 
 class RFEMDataHandler:
 
-    def __init__(self, model: Model, mesh_type: MeshType):
+    def __init__(self, model: Model, mesh_type: MeshType=MeshType.FE2D):
         self._rfem_interface = RFEMInterface(model=model)
         self._mesh_type = mesh_type
         self._raw_element_data = self._get_rfem_elements()
